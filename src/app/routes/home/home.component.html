@@ -1,8 +1,26 @@
 <div class="fixed inset-0 flex">
   <app-navbar></app-navbar>
-  <div class="flex items-center justify-center w-full h-full bg-slate-900">
-    <div class="flex justify-between flex-col h-full p-4 w-full max-w-6xl">
-      <div class="flex h-full w-full flex-col overflow-y-auto">
+  <div
+    class="flex flex-col items-center justify-center w-full h-full overflow-hidden bg-slate-900"
+  >
+    <div
+      class="flex items-center justify-center w-full h-20 shrink-0 grow-0 border-b border-slate-700"
+    >
+      <div class="flex justify-end w-full max-w-6xl text-right px-6">
+        <div
+          class="bg-violet-500 text-white font-black text-lg p-2 rounded-md select-none"
+        >
+          #{{ roomsService.selectedRoom }}
+        </div>
+      </div>
+    </div>
+    <div
+      class="flex justify-between flex-col h-[calc(100%_-_5rem)] p-4 w-full max-w-6xl"
+    >
+      <div
+        id="messages-container"
+        class="flex h-full w-full flex-col overflow-y-auto"
+      >
         <div
           class="flex text-white"
           [ngClass]="{
@@ -18,7 +36,13 @@
                 'justify-end': message.sender === roomsService.username
               }"
             >
-              <div class="bg-violet-500 rounded-md p-2">
+              <div
+                class="rounded-md p-2"
+                [ngClass]="{
+                  'bg-violet-500': message.sender === roomsService.username,
+                  'bg-slate-700': message.sender !== roomsService.username
+                }"
+              >
                 <div class="font-black">@{{ message.sender }}</div>
                 <div
                   class="whitespace-pre-wrap overflow-hidden"
@@ -46,6 +70,7 @@
             class="overflow-auto max-h-24 outline-none w-full text-white"
             type="text"
             placeholder="Type your message..."
+            (keyup.enter)="sendMessage()"
             (input)="onContentChange($event)"
             contenteditable="true"
           ></div>

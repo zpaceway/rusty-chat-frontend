@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { faUser, faBars } from '@fortawesome/free-solid-svg-icons';
 import { RoomsService } from 'src/app/services/rooms/rooms.service';
 
@@ -14,10 +14,7 @@ export class NavbarComponent {
 
   newRoom = '';
 
-  constructor(
-    public roomsService: RoomsService,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(public roomsService: RoomsService) {}
 
   addNewRoom() {
     if (this.newRoom.toLowerCase()) {
@@ -28,5 +25,10 @@ export class NavbarComponent {
 
   toggleNavbar() {
     this.isOpened = !this.isOpened;
+  }
+
+  onUsernameChange($event: Event) {
+    const username = ($event.target as HTMLInputElement).value;
+    this.roomsService.setUsername(username);
   }
 }

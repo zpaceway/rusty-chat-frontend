@@ -24,6 +24,7 @@ export class HomeComponent {
         if (messageContentArea) {
           messageContentArea.innerHTML = '';
         }
+        this.roomsService.scrollMessagesContainerToBottom();
       });
     }
   }

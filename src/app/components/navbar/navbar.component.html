@@ -28,7 +28,8 @@
         class="rounded-md flex min-w-[120px] bg-transparent outline-none text-white text-sm border border-slate-700 w-full p-2"
         spellcheck="false"
         type="text"
-        [(ngModel)]="roomsService.username"
+        (input)="onUsernameChange($event)"
+        [defaultValue]="roomsService.username"
       />
     </div>
     <input
@@ -39,11 +40,15 @@
     <div class="flex gap-2 flex-col overflow-y-auto px-4">
       <div
         *ngFor="let room of roomsService.rooms"
-        class="text-white p-2 bg-slate-700 rounded-md select-none hover:bg-violet-500 transition-all duration-300 cursor-pointer"
+        class="relative text-white p-2 bg-slate-700 rounded-md select-none hover:bg-violet-500 transition-all duration-300 cursor-pointer"
         [ngClass]="{ 'bg-violet-600': roomsService.selectedRoom === room.name }"
         (click)="roomsService.setSelectedRoom(room.name)"
       >
-        #{{ room.name }}
+        <div>#{{ room.name }}</div>
+        <div
+          *ngIf="room.hasUnponedChats"
+          class="absolute bg-yellow-400 rounded-full w-2 h-2 top-1 right-1"
+        ></div>
       </div>
     </div>
   </div>
@@ -53,6 +58,7 @@
       type="text"
       placeholder="New Room"
       [(ngModel)]="newRoom"
+      (keyup.enter)="addNewRoom()"
     />
     <button
       class="text-white w-10 h-10 shrink-0 bg-slate-900 rounded-md"
