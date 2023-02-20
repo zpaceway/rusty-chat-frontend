@@ -1,0 +1,75 @@
+<div
+  class="main fixed inset-0 flex flex-col gap-4 justify-between w-full h-full bg-slate-800 md:static md:max-w-xs"
+  [ngClass]="{ hidden: !isOpened }"
+>
+  <div class="flex flex-col gap-4 overflow-hidden">
+    <div class="m-4">
+      <fa-icon
+        [icon]="faBars"
+        class="text-white shrink-0 grow-0 bg-slate-900 rounded-md cursor-pointer w-10 h-10 flex justify-center items-center"
+        (click)="toggleNavbar()"
+      ></fa-icon>
+    </div>
+    <div class="flex gap-2 mx-4">
+      <div class="relative">
+        <fa-icon
+          [icon]="faUser"
+          class="text-white shrink-0 grow-0 bg-slate-900 rounded-full w-10 h-10 flex justify-center items-center"
+        ></fa-icon>
+        <div
+          class="absolute w-3 h-3 rounded-full right-0 bottom-0"
+          [ngClass]="{
+            'bg-emerald-500': roomsService.connected,
+            'bg-red-500': !roomsService.connected
+          }"
+        ></div>
+      </div>
+      <input
+        class="rounded-md flex min-w-[120px] bg-transparent outline-none text-white text-sm border border-slate-700 w-full p-2"
+        spellcheck="false"
+        type="text"
+        [(ngModel)]="roomsService.username"
+      />
+    </div>
+    <input
+      class="rounded-md bg-slate-900 outline-none text-white p-2 mx-4"
+      type="text"
+      placeholder="Search"
+    />
+    <div class="flex gap-2 flex-col overflow-y-auto px-4">
+      <div
+        *ngFor="let room of roomsService.rooms"
+        class="text-white p-2 bg-slate-700 rounded-md select-none hover:bg-violet-500 transition-all duration-300 cursor-pointer"
+        [ngClass]="{ 'bg-violet-600': roomsService.selectedRoom === room.name }"
+        (click)="roomsService.setSelectedRoom(room.name)"
+      >
+        #{{ room.name }}
+      </div>
+    </div>
+  </div>
+  <div class="flex gap-2 m-4">
+    <input
+      class="rounded-md flex min-w-[120px] p-2 bg-transparent outline-none text-white text-sm w-full border border-slate-700"
+      type="text"
+      placeholder="New Room"
+      [(ngModel)]="newRoom"
+    />
+    <button
+      class="text-white w-10 h-10 shrink-0 bg-slate-900 rounded-md"
+      (click)="addNewRoom()"
+    >
+      +
+    </button>
+  </div>
+</div>
+<div
+  class="m-4"
+  *ngIf="!isOpened"
+  class="fixed top-4 left-4 shadow rounded-md z-50"
+>
+  <fa-icon
+    [icon]="faBars"
+    class="text-white shrink-0 grow-0 bg-slate-800 rounded-md cursor-pointer w-10 h-10 flex justify-center items-center"
+    (click)="toggleNavbar()"
+  ></fa-icon>
+</div>

@@ -1,0 +1,62 @@
+<div class="fixed inset-0 flex">
+  <app-navbar></app-navbar>
+  <div class="flex items-center justify-center w-full h-full bg-slate-900">
+    <div class="flex justify-between flex-col h-full p-4 w-full max-w-6xl">
+      <div class="flex h-full w-full flex-col overflow-y-auto">
+        <div
+          class="flex text-white"
+          [ngClass]="{
+            'justify-end': message.sender === roomsService.username,
+            'text-right': message.sender === roomsService.username
+          }"
+          *ngFor="let message of roomsService.messages"
+        >
+          <div class="flex flex-col p-2">
+            <div
+              class="flex"
+              [ngClass]="{
+                'justify-end': message.sender === roomsService.username
+              }"
+            >
+              <div class="bg-violet-500 rounded-md p-2">
+                <div class="font-black">@{{ message.sender }}</div>
+                <div
+                  class="whitespace-pre-wrap overflow-hidden"
+                  style="word-break: break-word"
+                >
+                  {{ message.content }}
+                </div>
+              </div>
+            </div>
+            <div
+              class="text-xs mt-2"
+              [ngClass]="{
+                'text-right': message.sender === roomsService.username
+              }"
+            >
+              {{ message.created_at.toLocaleString() }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="gap-2 w-full pt-4 grow-0 shrink-0 items-end flex">
+        <div class="rounded-md overflow-hidden p-2 bg-slate-800 w-full">
+          <div
+            id="message-content-area"
+            class="overflow-auto max-h-24 outline-none w-full text-white"
+            type="text"
+            placeholder="Type your message..."
+            (input)="onContentChange($event)"
+            contenteditable="true"
+          ></div>
+        </div>
+        <div
+          class="p-2 bg-violet-500 w-10 h-10 shrink-0 grow-0 flex items-center justify-center rounded-md cursor-pointer"
+          (click)="sendMessage()"
+        >
+          <fa-icon [icon]="faPaperPlane" class="text-white"></fa-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
